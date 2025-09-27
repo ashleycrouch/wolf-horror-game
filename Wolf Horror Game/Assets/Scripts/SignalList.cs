@@ -22,11 +22,11 @@ namespace Project.WorldSignals
 
 namespace Project.InputSignals
 {
-    enum Direction
+    public enum Direction
     {
-        North, South, East, West,
+        None, North, South, East, West,
         NorthWest, NorthEast,
         SouthWest, SouthEast,
     }
-    public class InputDirection : ASignal<Direction> { }
+    public class InputDirectionSignal : ASignal<Direction> { }
 }

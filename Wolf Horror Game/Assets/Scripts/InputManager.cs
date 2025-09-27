@@ -1,51 +1,72 @@
 using UnityEngine;
+using deVoid.Utils;
+using Project.InputSignals;
 
 public class InputManager : MonoBehaviour
 {
-    public TextMesh directionText;
-    public Transform arrow = null;
-    public Quaternion initialRotation;
-    public Vector3 inputDirection = Vector3.zero;
-    public float inputRotation = 0;
+    [SerializeField]
+    private Transform arrow = null;
+    [SerializeField]
+    private TextMesh directionText = null;
+    private InputDirectionSignal inputDirectionSignal;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Starting Input Manager");
-        initialRotation = arrow.rotation;
-        directionText.text = "*";
+        inputDirectionSignal = Signals.Get<InputDirectionSignal>();
     }
 
-    void OnEnable()
+    string getPolarity(float axis, string positive, string negative, float minimum=0.001f)
     {
-        Debug.Log("Input Manager Enabled");
+        float sign = Mathf.Sign(axis);
+        if ((axis * sign) < minimum) return "";
+        return sign > 0  ? positive : negative;
     }
 
-    void OnDisable()
+    string getDirectionString(float vertical, float horizontal)
     {
-        Debug.Log("Input Manager Disabled");
+        return getPolarity(vertical, "N", "S") + getPolarity(horizontal, "E", "W");
     }
 
-    // Update is called once per frame
+    Direction getDirection(string directionString) 
+    {
+        switch (directionString) 
+        { 
+            case "N": return Direction.North;
+            case "S": return Direction.South;
+            case "E": return Direction.East;
+            case "W": return Direction.West;
+            case "NE": return Direction.NorthEast;
+            case "NW": return Direction.NorthWest;
+            case "SE": return Direction.SouthEast;
+            case "SW": return Direction.SouthWest;
+            default: return Direction.None;
+        }
+    }
+
+    float getSquareMagnitudeFromAxis(float vertical, float horizontal)
+    {
+        return new Vector3(horizontal, 0f, vertical).sqrMagnitude;
+    }
+
+    float getRotationFromAxis(float vertical, float horizontal, float minimum=0.00001f)
+    {
+        float sqrMagnitude = getSquareMagnitudeFromAxis(vertical, horizontal);
+        float offset = sqrMagnitude > minimum ? 90f : 0f;
+        return Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg - offset;
+    }
+
     void Update()
     {
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
-        inputDirection = new Vector3(horizontal, 0f, vertical);
-        if(inputDirection.sqrMagnitude > 0.001f)
+        float inputRotation = getRotationFromAxis(vertical, horizontal);
+        arrow.rotation = Quaternion.Euler(0f, 0f, inputRotation);
+        string directionString = getDirectionString(vertical, horizontal);
+        directionText.text = directionString;
+        Direction direction = getDirection(directionString);
+        if (direction != Direction.None)
         {
-            inputRotation = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg - 90f;
-            arrow.rotation = Quaternion.Euler(0f, 0f, inputRotation);
-            string compassDirection = "";
-            float verticalSign = Mathf.Sign(vertical);
-            float horizontalSign = Mathf.Sign(horizontal);
-            if ((vertical * verticalSign) > 0.00001f) compassDirection += verticalSign > 0 ? "N" : "S";
-            if ((horizontal * horizontalSign) > 0.00001f) compassDirection += horizontalSign > 0 ? "E" : "W";
-            directionText.text = compassDirection;
-        } else
-        {
-            arrow.rotation = initialRotation;
-            directionText.text = "*";
+            inputDirectionSignal.Dispatch(direction);
         }
     }
 }
