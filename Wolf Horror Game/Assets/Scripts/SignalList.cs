@@ -19,3 +19,14 @@ namespace Project.WorldSignals
 {
 
 }
+
+namespace Project.InputSignals
+{
+    enum Direction
+    {
+        North, South, East, West,
+        NorthWest, NorthEast,
+        SouthWest, SouthEast,
+    }
+    public class InputDirection : ASignal<Direction> { }
+}
