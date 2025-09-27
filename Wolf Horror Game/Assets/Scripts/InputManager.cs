@@ -1,6 +1,4 @@
 using UnityEngine;
-using deVoid.Utils;
-using Project.InputSignals;
 
 public class InputManager : MonoBehaviour
 {
