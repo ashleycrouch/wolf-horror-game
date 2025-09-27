@@ -42,7 +42,7 @@ Physics2DSettings:
   m_SimulationMode: 0
   m_SimulationLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 23
   m_MaxSubStepCount: 4
   m_MinSubStepFPS: 30
   m_UseSubStepping: 0
