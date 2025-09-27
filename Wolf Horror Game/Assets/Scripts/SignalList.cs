@@ -3,22 +3,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SignalList
+namespace Project.PlayerSignals
 {
-    namespace Project.PlayerSignals
-    {
-        public class PlayerHealthChange : ASignal<int> { }
-        public class PlayerHealthUpdate : ASignal<int> { }
-        public class PlayerDeath : ASignal<GameObject> { }
-    }
+    public class PlayerHealthChange : ASignal<int> { }
+    public class PlayerHealthUpdate : ASignal<int> { }
+    public class PlayerDeath : ASignal<GameObject> { }
+}
 
-    namespace Project.UISignals
-    {
+namespace Project.UISignals
+{
 
-    }
+}
 
-    namespace Project.WorldSignals
-    {
+namespace Project.WorldSignals
+{
 
-    }
 }
