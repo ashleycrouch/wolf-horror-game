@@ -9,6 +9,7 @@ public class IsometricMovement : MonoBehaviour
     public Vector3Int GridSpaceToMove;
     public int walkSpeed;
     bool isFacingUp, isFacingRight;
+    bool isWalking;
 
     public Grid world;
 
@@ -50,6 +51,7 @@ public class IsometricMovement : MonoBehaviour
         float journeyLength = Vector2.Distance(startPosition, targetPosition);
         float startTime = Time.time;
 
+        isWalking = true;
         while (transform.position != targetPosition)
         {
             float distCovered = (Time.time - startTime) * walkSpeed;
@@ -59,6 +61,7 @@ public class IsometricMovement : MonoBehaviour
         }
 
         transform.position = targetPosition;
+        isWalking = false;
     }
 
     private void OnReceiveInputDirection(Direction direction)
@@ -73,8 +76,12 @@ public class IsometricMovement : MonoBehaviour
 
         Vector3Int neighbor = world.WorldToCell(pos + dirVector);
         GridSpaceToMove = neighbor;
+        if(!isWalking)
+        {
+            StartCoroutine(LerpToLocation(neighbor));
 
-        StartCoroutine(LerpToLocation(neighbor));
+        }
+
     }
 
 }
