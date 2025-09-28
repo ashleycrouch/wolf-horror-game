@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private Transform arrow = null;
     [SerializeField]
-    private TextMesh directionText = null;
+    //private TextMesh directionText = null;
     private InputDirectionSignal inputDirectionSignal;
 
     void Start()
@@ -62,7 +62,8 @@ public class InputManager : MonoBehaviour
         float inputRotation = getRotationFromAxis(vertical, horizontal);
         arrow.rotation = Quaternion.Euler(0f, 0f, inputRotation);
         string directionString = getDirectionString(vertical, horizontal);
-        directionText.text = directionString;
+        //directionText.text = directionString;
+        Debug.Log($"Going in {directionString} direction");
         Direction direction = getDirection(directionString);
         if (direction != Direction.None)
         {
