@@ -3,26 +3,30 @@ using Project.InputSignals;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class IsometricMovement : MonoBehaviour
 {
+    public Vector3 WorldSpaceToMove;
     public Vector3Int GridSpaceToMove;
+
     public int walkSpeed;
     bool isFacingUp, isFacingRight;
     bool isWalking;
 
     public Grid world;
+    public Tilemap tilemap;
 
-    Dictionary<Direction, Vector2> directionVectors = new Dictionary<Direction, Vector2>
+    Dictionary<Direction, Vector3Int> directionVectors = new Dictionary<Direction, Vector3Int>
       {
-        { Direction.North, new Vector2(1, 1) },
-        { Direction.South, new Vector2(-1, -1) },
-        { Direction.East, new Vector2(1, -1) },
-        { Direction.West, new Vector2(-1, 1) },
-        { Direction.NorthEast, new Vector2(1, 0) },
-        { Direction.NorthWest, new Vector2(0, 1) },
-        { Direction.SouthEast, new Vector2(0, -1) },
-        { Direction.SouthWest, new Vector2(-1, 0) },
+        { Direction.North, new Vector3Int(1, 1) },
+        { Direction.South, new Vector3Int(-1, -1) },
+        { Direction.East, new Vector3Int(1, -1) },
+        { Direction.West, new Vector3Int(-1, 1) },
+        { Direction.NorthEast, new Vector3Int(1, 0) },
+        { Direction.NorthWest, new Vector3Int(0, 1) },
+        { Direction.SouthEast, new Vector3Int(0, -1) },
+        { Direction.SouthWest, new Vector3Int(-1, 0) },
     };
     private void Awake()
     {
@@ -38,9 +42,15 @@ public class IsometricMovement : MonoBehaviour
 
     }
 
+    //Tile GetTile(Vector3Int coordinate)
+    //{
+
+    //}
+
     IEnumerator LerpToLocation(Vector3Int coordinate)
     {
         Vector3 targetPosition = world.GetCellCenterWorld(coordinate);
+        //var targetPosition = world.GetCellCenterLocal(coordinate);
         Vector3 startPosition = transform.position;
 
         if(startPosition == targetPosition)
@@ -66,19 +76,25 @@ public class IsometricMovement : MonoBehaviour
 
     private void OnReceiveInputDirection(Direction direction)
     {
+        Vector3Int currentLoc = world.WorldToCell(transform.position);
+        
+
+        Debug.Log($"Currently at {currentLoc.x},{currentLoc.y},{currentLoc.z}");
         if(direction == Direction.None)
         {
             return;
         }
         //move one space in a direction
-        Vector2 dirVector = directionVectors[direction];
-        Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+        Vector3Int dirVector = directionVectors[direction];
+        GridSpaceToMove = currentLoc + dirVector;
+        WorldSpaceToMove = world.CellToWorld(GridSpaceToMove);
+        var result = tilemap.GetTile(GridSpaceToMove);
+        //TileData data;
+        //result.GetTileData(GridSpaceToMove, tilemap, data);
 
-        Vector3Int neighbor = world.WorldToCell(pos + dirVector);
-        GridSpaceToMove = neighbor;
-        if(!isWalking)
+        if (!isWalking)
         {
-            StartCoroutine(LerpToLocation(neighbor));
+            StartCoroutine(LerpToLocation(GridSpaceToMove));
 
         }
 
