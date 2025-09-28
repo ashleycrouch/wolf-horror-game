@@ -1,39 +1,8 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
-[Serializable]
-public enum Wolf
-{
-    Alpha,
-    Beta
-}
-
-[Serializable]
-public struct Statement
-{
-    public Wolf speaker;
-    [TextAreaAttribute]
-    public string message;
-    public Statement(Wolf speaker, string message)
-    {
-        this.speaker = speaker;
-        this.message = message;
-    }
-    public override string ToString() => $"{this.speaker}: {this.message}";
-}
-
-[Serializable]
-public struct Conversation
-{
-    public string title;
-    public Statement[] statements;
-    public Conversation(string title, Statement[] statements)
-    {
-        this.title = title;
-        this.statements = statements;
-    }
-}
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -42,25 +11,59 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private GameObject dialoguePanel = null;
     [SerializeField]
-    private Conversation conversation;
+    private Image speakerImage = null;
+    [SerializeField]
+    private TextMeshProUGUI speakerName = null;
+    [SerializeField]
+    private TextMeshProUGUI speakerMessage = null;
+    public Conversation currentConversation;
+    public int currentStatementIndex;
+    public Statement defaultStatement;
+    private Statement currentStatement;
+    private bool speaking=false;
 
-    Conversation getConversationsFromJSON(string jsonString)
+    public void startConversation(Conversation conversation)
     {
-        return JsonUtility.FromJson<Conversation>(jsonString);
+        Debug.Log("Starting conversation:\n" + conversation.title);
+        currentConversation = conversation;
+        speaking=true;
+        setStatement(0);
+        showStatement();
     }
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void endConversation()
     {
-        conversation = getConversationsFromJSON(conversationsJSON.text);
-        Debug.Log(conversation);
+        Debug.Log("Ending conversation:\n" + currentConversation.title);
+        currentConversation = null;
+        currentStatementIndex = 0;
+        currentStatement = defaultStatement;
+        speaking = false;
+        showStatement();
     }
 
-    // Update is called once per frame
-    void Update()
+    void setStatement(int index)
     {
-        
+        currentStatementIndex = index;
+        currentStatement = currentConversation.statements[index];
+    }
+
+    void showStatement()
+    {
+        dialoguePanel.gameObject.SetActive(speaking);
+        speakerImage.sprite = currentStatement.speaker.headshot;
+        speakerName.text = currentStatement.speaker.nickname;
+        speakerMessage.text = currentStatement.message;
+    }
+
+    public void nextStatement()
+    {
+        if (!speaking) { return; }
+        int nextIndex = currentStatementIndex + 1;
+        if (nextIndex >= currentConversation.statements.Length) {
+            endConversation();
+        } else {
+            setStatement(nextIndex);
+            showStatement();
+        }
     }
 }
