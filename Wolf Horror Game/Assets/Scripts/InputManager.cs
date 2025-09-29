@@ -4,15 +4,15 @@ using Project.InputSignals;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField]
-    private Transform arrow = null;
-    [SerializeField]
-    //private TextMesh directionText = null;
     private InputDirectionSignal inputDirectionSignal;
+    private InputAxisSignal inputAxisSignal;
+    private NoInputSignal noInputSignal;
 
     void Start()
     {
         inputDirectionSignal = Signals.Get<InputDirectionSignal>();
+        inputAxisSignal = Signals.Get<InputAxisSignal>();
+        noInputSignal = Signals.Get<NoInputSignal>();
     }
 
     string getPolarity(float axis, string positive, string negative, float minimum=0.001f)
@@ -43,30 +43,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    float getSquareMagnitudeFromAxis(float vertical, float horizontal)
-    {
-        return new Vector3(horizontal, 0f, vertical).sqrMagnitude;
-    }
-
-    float getRotationFromAxis(float vertical, float horizontal, float minimum=0.00001f)
-    {
-        float sqrMagnitude = getSquareMagnitudeFromAxis(vertical, horizontal);
-        float offset = sqrMagnitude > minimum ? 90f : 0f;
-        return Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg - offset;
-    }
-
     void Update()
     {
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
-        float inputRotation = getRotationFromAxis(vertical, horizontal);
-        arrow.rotation = Quaternion.Euler(0f, 0f, inputRotation);
         string directionString = getDirectionString(vertical, horizontal);
-        //directionText.text = directionString;
         Debug.Log($"Going in {directionString} direction");
         Direction direction = getDirection(directionString);
-        if (direction != Direction.None)
+        if (direction == Direction.None)
         {
+            noInputSignal.Dispatch();
+        } else
+        {
+            inputAxisSignal.Dispatch(vertical, horizontal);
             inputDirectionSignal.Dispatch(direction);
         }
     }

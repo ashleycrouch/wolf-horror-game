@@ -29,4 +29,6 @@ namespace Project.InputSignals
         SouthWest, SouthEast,
     }
     public class InputDirectionSignal : ASignal<Direction> { }
+    public class InputAxisSignal : ASignal<float, float> { }
+    public class NoInputSignal : ASignal { }
 }
