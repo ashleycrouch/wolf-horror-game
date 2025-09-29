@@ -29,4 +29,6 @@ namespace Project.InputSignals
         SouthWest, SouthEast,
     }
     public class InputDirectionSignal : ASignal<Direction> { }
+
+    public class InputClickSignal : ASignal<Vector3> { }
 }

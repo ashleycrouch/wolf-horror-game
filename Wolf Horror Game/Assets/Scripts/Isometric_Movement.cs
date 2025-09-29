@@ -39,13 +39,34 @@ public class IsometricMovement : MonoBehaviour
     }
     void Start()
     {
-
+        if(tilemap == null)
+        {
+            tilemap = FindFirstObjectByType<Tilemap>();
+            if(tilemap == null)
+            {
+                Debug.Log("No tilemap");
+            }
+        }
     }
 
-    //Tile GetTile(Vector3Int coordinate)
-    //{
+    TileBase GetTile(Vector3Int coordinate)
+    {
+        BoundsInt bounds = tilemap.cellBounds;
 
-    //}
+        foreach(var pos in bounds.allPositionsWithin)
+        {
+            TileBase tile = tilemap.GetTile(pos);
+            if(tile != null)
+            {
+                Debug.Log($"Tile found at {pos}: {tile.name}");
+            }
+            if(pos == coordinate)
+            {
+                return tile;
+            }
+        }
+        return null;
+    }
 
     IEnumerator LerpToLocation(Vector3Int coordinate)
     {
@@ -88,9 +109,14 @@ public class IsometricMovement : MonoBehaviour
         Vector3Int dirVector = directionVectors[direction];
         GridSpaceToMove = currentLoc + dirVector;
         WorldSpaceToMove = world.CellToWorld(GridSpaceToMove);
-        var result = tilemap.GetTile(GridSpaceToMove);
+        if(tilemap)
+        {
+            var result = tilemap.GetTile(GridSpaceToMove);
+            Debug.Log($"Result is {result}");
+        }
         //TileData data;
         //result.GetTileData(GridSpaceToMove, tilemap, data);
+
 
         if (!isWalking)
         {
