@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Beta
   m_EditorClassIdentifier: 
   nickname: Beta
-  packname: 2
-  headshot: {fileID: 21300000, guid: 9a9c7535056c0ea4390fb64667dc273f, type: 3}
+  headshot: {fileID: 21300000, guid: da35da9461409374fa0811ca923ebd29, type: 3}
+  packname: 3

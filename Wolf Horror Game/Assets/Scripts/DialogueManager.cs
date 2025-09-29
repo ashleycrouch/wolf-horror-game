@@ -1,13 +1,16 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    [SerializeField]
-    private TextAsset conversationsJSON;
+    public Conversation currentConversation;
+    public float autoplayDelay = 5f;
+    public int currentStatementIndex = 0;
+    public bool autoplay = true;
+    public Statement defaultStatement;
     [SerializeField]
     private GameObject dialoguePanel = null;
     [SerializeField]
@@ -16,11 +19,10 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI speakerName = null;
     [SerializeField]
     private TextMeshProUGUI speakerMessage = null;
-    public Conversation currentConversation;
-    public int currentStatementIndex;
-    public Statement defaultStatement;
     private Statement currentStatement;
-    private bool speaking=false;
+    private float autoplayTimer = 0f;
+    private bool speaking = false;
+
 
     public void startConversation(Conversation conversation)
     {
@@ -65,5 +67,29 @@ public class DialogueManager : MonoBehaviour
             setStatement(nextIndex);
             showStatement();
         }
+    }
+    public void enableAutoplay(bool shouldEnable = true)
+    {
+        if (autoplay == shouldEnable) { return; }
+        autoplay = shouldEnable;
+        autoplayTimer = 0f;
+    }
+
+    void autoplayUpdate()
+    {
+        if (!speaking || !autoplay) { return; }
+        if (autoplayTimer < autoplayDelay) 
+        {
+            autoplayTimer += Time.deltaTime;
+        } else
+        {
+            autoplayTimer = 0f;
+            nextStatement();
+        }
+    }
+
+    private void Update()
+    {
+        autoplayUpdate();
     }
 }

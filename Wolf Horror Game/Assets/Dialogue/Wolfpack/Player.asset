@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b4e416088c9f87479120d8df12332b6, type: 3}
-  m_Name: Alpha
+  m_Name: Player
   m_EditorClassIdentifier: 
-  nickname: Alpha
-  headshot: {fileID: 21300000, guid: 06a2223acd2be9c46bcb7f47daa705e7, type: 3}
-  packname: 2
+  nickname: Player
+  headshot: {fileID: 21300000, guid: 78833df78acd715469052be89dda51c9, type: 3}
+  packname: 1
