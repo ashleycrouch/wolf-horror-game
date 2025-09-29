@@ -1,22 +1,25 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum WolfPack
 {
     None,
+    Player,
     Alpha,
-    Beta
+    Beta,
+    Scout,
+    Artemis,
+    Apollo
 }
 
-[CreateAssetMenu(fileName = "Wolf", menuName = "Scriptable Objects/Wolf")]
-public class Wolf : ScriptableObject
+[CreateAssetMenu(fileName = "New Wolf", menuName = "Dialogue/Wolf")]
+public class Wolf : Speaker
 {
-    public string nickname;
     public WolfPack packname;
-    public Sprite headshot;
-    public Wolf(string nickname, WolfPack packname, Sprite headshot)
+    public void Initialize(string nickname, Sprite headshot, WolfPack packname)
     {
-        this.nickname = nickname;
+        base.Initialize(nickname, headshot);
         this.packname = packname;
-        this.headshot = headshot;
     }
 }

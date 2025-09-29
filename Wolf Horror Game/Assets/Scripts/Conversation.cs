@@ -4,10 +4,10 @@ using UnityEngine;
 [Serializable]
 public struct Statement
 {
-    public Wolf speaker;
+    public Speaker speaker;
     [TextAreaAttribute]
     public string message;
-    public Statement(Wolf speaker, string message)
+    public Statement(Speaker speaker, string message)
     {
         this.speaker = speaker;
         this.message = message;
@@ -16,7 +16,7 @@ public struct Statement
 }
 
 [Serializable]
-[CreateAssetMenu(fileName = "Conversation", menuName = "Scriptable Objects/Conversation")]
+[CreateAssetMenu(fileName = "New Conversation", menuName = "Dialogue/Conversation")]
 public class Conversation : ScriptableObject
 {
     public string title;

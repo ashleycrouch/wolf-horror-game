@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Test Conversation
   statements:
-  - name: Alpha
+  - speaker: {fileID: 11400000, guid: eddbad8f6fd407441928515a2d69acc5, type: 2}
     message: Come here
-  - name: Alpha
+  - speaker: {fileID: 11400000, guid: eddbad8f6fd407441928515a2d69acc5, type: 2}
     message: Do this
+  - speaker: {fileID: 11400000, guid: 04dbd468dd9a3cd499ff8c8c8336d408, type: 2}
+    message: Sweep the leg
