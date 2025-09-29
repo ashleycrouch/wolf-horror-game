@@ -31,4 +31,5 @@ namespace Project.InputSignals
     public class InputDirectionSignal : ASignal<Direction> { }
     public class InputAxisSignal : ASignal<float, float> { }
     public class NoInputSignal : ASignal { }
+    public class InputClickSignal : ASignal<Vector3> { }
 }
