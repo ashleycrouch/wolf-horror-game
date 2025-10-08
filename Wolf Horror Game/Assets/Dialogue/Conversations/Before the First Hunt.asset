@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee5fdfdc7e4938498004fbd5dbe13c5, type: 3}
+  m_Name: Before the First Hunt
+  m_EditorClassIdentifier: 
+  title: Before the First Hunt
+  statements:
+  - speaker: {fileID: 11400000, guid: 04dbd468dd9a3cd499ff8c8c8336d408, type: 2}
+    message: "I must admit, I\u2019m curious about the increase of humans too. Their
+      presence grows, along with the strange scents they bring with them."
+  - speaker: {fileID: 11400000, guid: 7f442fb573d75694dab7871dbab85cf0, type: 2}
+    message: Not to mention they dump their trash in our home.
+  - speaker: {fileID: 11400000, guid: 8a56cd10a38410c4fb89f938dcfd00bd, type: 2}
+    message: "Wasn\u2019t trash when we were fighting over it\u2026"
+  - speaker: {fileID: 11400000, guid: 7f442fb573d75694dab7871dbab85cf0, type: 2}
+    message: 'Hush, you!! '
