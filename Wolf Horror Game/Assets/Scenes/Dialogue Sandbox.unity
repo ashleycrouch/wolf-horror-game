@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 1120209507}
-  conversation: {fileID: 11400000, guid: 7d15350f32721d04284d724bd532c13f, type: 2}
+  conversation: {fileID: 11400000, guid: 7d4294cf775b94547beefa57f28440af, type: 2}
 --- !u!4 &1379365172
 Transform:
   m_ObjectHideFlags: 0
