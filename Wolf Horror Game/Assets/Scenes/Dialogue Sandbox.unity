@@ -1248,6 +1248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 1120209507}
   conversation: {fileID: 11400000, guid: 7d4294cf775b94547beefa57f28440af, type: 2}
+  triggerType: 0
+  trigger: {fileID: 0}
 --- !u!4 &1379365172
 Transform:
   m_ObjectHideFlags: 0

@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public enum WolfPack
 {
-    None,
-    Player,
-    Alpha,
-    Beta,
-    Scout,
-    Artemis,
-    Apollo
+    None,       // Default
+    White_Wolf, // Player,
+    Dena,       // Alpha,
+    Kovan,      // Beta,
+    Mekki,      // Scout,
+    Benti,      // Artemis,
+    Tomak       // Apollo
 }
 
 [CreateAssetMenu(fileName = "New Wolf", menuName = "Dialogue/Wolf")]

@@ -1,16 +1,43 @@
+using System.Diagnostics;
+using UnityEditor.Build;
 using UnityEngine;
+
+public enum TriggerType
+{
+    None,
+    Automatic,
+    Collision,
+    Interact
+}
 
 public class DialogueTrigger : MonoBehaviour
 {
+    public DialogueManager dialogueManager;
+    public Conversation conversation;
+    
     [SerializeField]
-    private DialogueManager dialogueManager;
+    private TriggerType triggerType;
     [SerializeField]
-    private Conversation conversation;
+    private Collider2D trigger;
+
+    public void triggerConversation()
+    {
+        bool missingConversation = conversation == null;
+        if (missingConversation) { return; }
+        dialogueManager.startConversation(conversation);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        bool isCollision = triggerType == TriggerType.Collision;
+        bool isCollidingWithPlayer = collision.gameObject.tag == "Player";
+        if(isCollision && isCollidingWithPlayer) { triggerConversation(); }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        dialogueManager.startConversation(conversation);
+        if(triggerType == TriggerType.Automatic) { triggerConversation(); }
     }
 
     // Update is called once per frame

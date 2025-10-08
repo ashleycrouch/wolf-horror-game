@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class DialogueManager : MonoBehaviour
     public int currentStatementIndex = 0;
     public bool autoplay = true;
     public Statement defaultStatement;
+
+
     [SerializeField]
     private GameObject dialoguePanel = null;
     [SerializeField]
@@ -18,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI speakerName = null;
     [SerializeField]
+
     private TextMeshProUGUI speakerMessage = null;
     private Statement currentStatement;
     private float autoplayTimer = 0f;
@@ -86,6 +90,12 @@ public class DialogueManager : MonoBehaviour
             autoplayTimer = 0f;
             nextStatement();
         }
+    }
+
+    private void Start()
+    {
+        currentStatement = defaultStatement;
+        showStatement();
     }
 
     private void Update()

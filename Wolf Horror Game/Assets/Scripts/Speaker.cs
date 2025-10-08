@@ -11,4 +11,5 @@ public class Speaker : ScriptableObject
         this.nickname = nickname;
         this.headshot = headshot;
     }
+    public override string ToString() => this.nickname;
 }
